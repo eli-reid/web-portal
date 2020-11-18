@@ -1,0 +1,44 @@
+﻿{% extends "/user/layout.html" %}
+{% block content %}
+		{% for meeting in meetings.items %}
+		<div class="row row-striped">
+			<div class="col-2 text-right">
+				<h1 class="display-4"><span class="badge badge-secondary">{{meeting.date.day}}</span></h1>
+				<h2>{{meeting.date.strftime('%b')}}</h2>
+			</div>
+			<div class="col-10"> 
+				<h3 class="text-uppercase"><strong>{{ meeting.title | safe }}</strong></h3>
+				<ul class="list-inline">
+					{% if meeting.video %}
+					<li class="list-inline-item">&nbsp; <a href="/download/{{ meeting.date.strftime('%Y-%m-%d') }}/{{ meeting.video }}">  <i class="fa fa-play" aria-hidden="true"></i> {{ meeting.video}} </a></li>
+					{% endif %}
+					{% for doc in meeting.documents | list %}
+					<li class="list-inline-item">
+						<i class="fa fa-ellipsis-v" aria-hidden="true"></i> &nbsp; <a href="/download/{{ meeting.date.strftime('%Y-%m-%d') }}/{{ doc }}"> <i class="fa fa-download" aria-hidden="true"></i> {{ doc }}</a> </li>
+					</li>
+					{% endfor %}
+					</li>
+				</ul>
+				<p>{{ meeting.description | safe}}</p>
+			</div>	
+		</div>
+		<hr>
+		{% endfor %}
+		<div class="paginate">
+		|
+		{% if meetings.has_prev %}
+		 <a href="{{url_for('file_view', page=meetings.prev_num, per_page=per_page)}}"><i class="fa fa-arrow-circle-left fa-2" aria-hidden="true"></i> Prev</a>
+		{% else %}
+		 <i class="fa fa-arrow-circle-left fa-2" aria-hidden="true"></i> Prev
+		 {% endif %} 
+
+		 | Page {{meetings.page}} of {{meetings.pages}} |
+		
+		{% if meetings.has_next %}
+		 <a href="{{url_for('file_view', page=meetings.next_num, per_page=per_page)}}">Next <i class="fa fa-arrow-circle-right fa-2" aria-hidden="true"></i></a> 
+		{% else %}
+		 Next <i class="fa fa-arrow-circle-right fa-2" aria-hidden="true"></i>
+		{% endif %} 
+		|
+		</div>
+{% endblock %}

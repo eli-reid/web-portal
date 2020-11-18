@@ -1,0 +1,103 @@
+{% extends "/admin/controlpanel.html" %}
+{% block content %}
+<div class="login-form">
+    <form action="/user/{{ user }}/profile" method="post">
+        <h2 class="text-center ">Update Profile</h2>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <div>
+                <i class="fa fa-user"> </i> Username
+            </div>
+            <div>
+                {{ user }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.email.label }}
+            </div>
+            <div>
+                {{ form.email(value=user.email) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.first_name.label }}
+            </div>
+            <div>
+                {{ form.first_name(value=user.profile.first_name) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.last_name.label }}
+            </div>
+            <div>
+                {{ form.last_name(value=user.profile.first_name) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.address1.label }}
+            </div>
+            <div>
+                {{ form.address1(value=user.profile.address1) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.address2.label }}
+            </div>
+            <div>
+                {{ form.address2(value=user.profile.address2) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.city.label }}
+            </div>
+            <div>
+                {{ form.city(value=user.profile.city) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.state.label }}
+            </div>
+            <div>
+                {{ form.state(selected=user.profile.state) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.zip.label }}
+            </div>
+            <div>
+                {{ form.zip(value=user.profile.zip) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.home_phone.label }}
+            </div>
+            <div>
+                {{ form.home_phone(value=user.profile.home_phone) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.mobile_phone.label }}
+            </div>
+            <div>
+                {{ form.mobile_phone(value=user.profile.mobile_phone) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.recaptcha }}
+        </div>
+        <div class="group">
+            <input type="submit" value="Update Profile" />
+        </div>
+    </form>
+</div>
+{% endblock %}

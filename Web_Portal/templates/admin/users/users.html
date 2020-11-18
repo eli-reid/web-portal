@@ -1,0 +1,70 @@
+{% extends "/admin/controlpanel.html" %}
+{% block content %}
+<link href="../static/content/admin/userstable.css" rel="stylesheet" />
+<div class="container py-5">
+    <div class="table">
+        <div class="tHeading bg-dark">
+            <div class="tRow">
+                <div scope="col" class="tHead  bg-dark">Username</div>
+                <div scope="col" class="tHead  bg-dark">Email Address</div>
+                <div scope="col" class="tHead  bg-dark">Last Name</div>
+                <div scope="col" class="tHead sl bg-dark">L</div>
+                <div scope="col" class="tHead sl bg-dark">V</div>
+                <div scope="col" class="tHead sl bg-dark">A</div>
+                <div scope="col" class="tHead sl bg-dark">E</div>
+                <div scope="col" class="tHead sl bg-dark">D</div>
+            </div>
+        </div>
+        <div class="tBody">
+            {% for user in users %}
+                <div class="tRow {{ loop.cycle('', 'shaded') }}">
+                    <div class="tCell">{{ user.username }}</div>
+                    <div class="tCell">{{ user.email }}</div>
+                    <div class="tCell">{{ user.profile.last_name }}</div>
+                    <div class="tCell sl">
+                        {% if user.locked %}
+                            <a href="" onclick='toggle("{{url_for('toggle_locked',id = user.id)}}")' data-toggle="tooltip" title="Unlock" id="{{user.id}}" ><i class="fas fa-lock"></i></a>
+                        {% else %}
+                            {% if user.username == current_user %}
+                                <i class="fas fa-times"></i>
+                            {% else %}
+                                <a href="" onclick='toggle("{{url_for('toggle_locked',id = user.id)}}")' data-toggle="tooltip" title="Lock" id="{{user.id}}" ><i class="fas fa-unlock"></i></a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="tCell sl">
+                        {% if user.verified %}
+                            {% if user.username == current_user %}
+                                <i class="fas fa-check"></i>
+                            {% else %}
+                                <a href="" onclick='toggle("{{url_for('toggle_verified',id = user.id)}}")'  data-toggle="tooltip" title="Unverify" id="{{user.id}}"><i class="fas fa-user-check"></i></a>
+                            {% endif %}
+                        {% else %}
+                            <a href="" onclick='toggle("{{url_for('toggle_verified',id = user.id)}}")' data-toggle="tooltip" title="Verify" id="{{user.id}}" ><i class="fas fa-user-times"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="tCell sl">
+                        {% if user.admin %}
+                            {% if user.username == current_user %}
+                                <i class="fas fa-check"></i>
+                            {% else %}
+                                <a href="" onclick='toggle("{{url_for('toggle_admin',id = user.id)}}")' data-toggle="tooltip" title="Remove Admin" id="{{user.id}}" ><i class="fas fa-check"></i></a>
+                            {% endif %}
+                        {% else %}
+                            <a href="" onclick='toggle("{{url_for('toggle_admin',id = user.id)}}")'  data-toggle="tooltip" title="Make Admin" id="{{user.id}}" ><i class="fas fa-times"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="tCell sl"><a href="{{ url_for('useradmin_edit', id=user.id) }}" data-toggle="tooltip" title="Edit User"><i class="fas fa-user-edit"></i></a></div>
+                    <div class="tCell sl">
+                    {% if user.username != current_user %}
+                       <a href="" onclick="confirm_link('Delete User: {{ user.username }}?', '{{ url_for('useradmin_delete', id=user.id) }}')" data-toggle="tooltip" title="Delete User" ><i class="fas fa-user-slash"></i></a>
+                    {% else %}
+                        <a href="" data-toggle="tooltip" title="Can't Delete Self" ><i class="fas fa-user-slash"></i></a>
+                    {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

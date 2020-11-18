@@ -1,0 +1,109 @@
+
+{% extends "/admin/controlpanel.html" %}
+{% block content %}
+<div class="login-form">
+    <form action="/register" method="post">
+        <h2 class="text-center ">Add User</h2>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <div>
+                <i class="fa fa-user"> </i> {{ form.username.label }}
+            </div>
+            <div>
+                {{ form.username }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.password.label }}
+            </div>
+            <div>
+                {{ form.password }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.confirm.label }}
+            </div>
+            <div>
+                {{ form.confirm }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.email.label }}
+            </div>
+            <div>
+                {{ form.email }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.first_name.label }}
+            </div>
+            <div>
+                {{ form.first_name }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.last_name.label }}
+            </div>
+            <div>
+                {{ form.last_name }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.address1.label }}
+            </div>
+            <div>
+                {{ form.address1 }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.address2.label }}
+            </div>
+            <div>
+                {{ form.address2 }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.city.label }}
+            </div>
+            <div>
+                {{ form.city }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.state.label }}
+            </div>
+            <div>
+                {{ form.state }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.zip.label }}
+            </div>
+            <div>
+                {{ form.zip }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-lock"> </i> {{ form.mobile_phone.label }}
+            </div>
+            <div>
+                {{ form.mobile_phone }}
+            </div>
+        </div>
+        <div class="group">
+            <input type="submit" value="Add User" />
+        </div>
+    </form>
+</div>
+{% endblock %}

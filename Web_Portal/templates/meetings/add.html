@@ -1,0 +1,91 @@
+{% extends "/admin/controlpanel.html" %}
+{% block content %}
+
+<div class="upload-form" id="form">
+    
+    <h2 id="form-header">Add Meeting</h2>
+    <form id='upf' name='upf' action={{ url_for("meeting_add") }} method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <div>
+                {{ form.title.label }}
+            </div>
+            <div>
+                {{ form.title(class="upload-title") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                {{ form.description.label }}
+            </div>
+            <div>
+                {{ form.description(class="upload-description") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                {{ form.date.label }}
+            </div>
+            <div>
+                {{ form.date }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-file-video"> </i> {{form.video.label}}
+            </div>
+            <div>
+                {{ form.video( accept=app.config.get('ALLOWED_EXTENSIONS_VIDEO')) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <i class="fa fa-file-video"> </i> {{form.files.label}}
+            </div>
+            <div>
+                {{ form.files( accept=app.config.get('ALLOWED_EXTENSIONS_DOCS')) }}
+            </div>
+        </div>
+        <div class="group">
+            <input type="submit" value="Upload"  />
+        </div>
+    </form>
+</div>
+<div id="msg"></div>
+   
+{% endblock %}
+{% block script %}
+    <script>
+    var msg = '';
+        $('document').ready(function(){
+            $("form").submit(function () {
+                var xmlHttp = new XMLHttpRequest();
+                var date = $('#date').val();
+                var title = $('#title').val();
+                var url = "{{url_for('meeting_exists')}}" + date + '/'+ title 
+                xmlHttp.open('GET', url, false ); // false for synchronous request
+                xmlHttp.send(null);
+                var responseText = xmlHttp.responseText
+                console.log(responseText);
+                if (responseText != 'false'){
+                    alert(responseText, )
+                }
+                else{
+                    var video = $('#video').prop('files');
+                    var files = $('#files').prop('files');
+                    if (video[0].name.length > 0) {
+                        msg = video[0].name +"<br>"
+                    }
+                    for (i = 0; i < files.length; i++) {
+                        msg = msg + files[i].name + "<br>";
+                    } 
+                    $('#form').hide();
+                    $('#form-header').html('Please wait uploading...')
+                    $('#msg').html(msg)
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
+

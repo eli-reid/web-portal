@@ -1,0 +1,37 @@
+{% extends "/admin/controlpanel.html" %}
+{% block content %}
+<div class="container">
+    <div class="meetingTable table">
+        <div class="tHeading bg-dark">
+            <div class="tRow">
+                <div class="tHead">Date</div>
+                <div class="tHead">Title</div>
+                <div class="tHead">Discription</div>
+                <div class="tHead">Video File</div>
+                <div class="tHead">Documents </div>
+                <div class="tHead"></div>
+                <div class="tHead"></div>
+            </div>
+        </div>
+        {% for meeting in meetings.items %}
+        <div class="tRow {{ loop.cycle('', 'shaded') }}">
+            <div class="tCell date">{{ meeting.date.strftime('%m/%d/%Y') }} </div>
+            <div class="tCell">{{ meeting.title | safe}} </div>
+            <div class="tCell">{{ meeting.description[:100] | safe }}</div>
+            <div class="tCell">{{ meeting.video }}</div>
+            <div class="tCell">
+                {% if meeting.documents %}
+                    <select>
+                        {% for doc in meeting.documents %}
+                            <option>{{ doc }} </option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </div>
+            <div class="tCell sl"><a href="{{ url_for('meeting_edit', id=meeting.id)}}"><i class="fas fa-edit"></i></a></div>
+            <div class="tCell sl"><a href="" onclick="confirm_link(`Delete Meeting: {{ meeting.title |safe }}?`, `{{ url_for('meeting_delete', id=meeting.id) }}`)"><i class="fas fa-trash-alt"></i></a></div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

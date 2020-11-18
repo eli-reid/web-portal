@@ -1,0 +1,135 @@
+{% extends "/admin/controlpanel.html" %}
+{% block content %}
+
+<h2 id="form-header">File Upload</h2>
+<div class="upload-form" id="form">
+    <form id='upf' name='upf' action={{ url_for("meeting_edit",id=meeting.id) }} method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <div>
+                {{ form.title.label }}
+            </div>
+            <div>
+                {{ form.title(class="upload-title", value=meeting.title | safe) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                {{ form.description.label }}
+            </div>
+            <div>
+                {{ form.description(class="upload-description") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                {{ form.date.label }}
+            </div>
+            <div>
+                {{ form.date(value=meeting.date.strftime("%Y-%m-%d")) }}
+            </div>
+        </div>
+
+        {% if meeting.video or meeting.documents %}
+        
+        <div class="form-group" id="file">
+            <div class="table">
+                <div class="tHeading bg-dark">
+                    <div class="tRow" >
+                        <div scope="col" class="tHead sl bg-dark">File Name</div>
+                        <div scope="col" class="tHead sl bg-dark"></div>
+                    </div>
+                </div>
+                <div class="tBody">
+                {% if meeting.video %}
+                    <div class="tRow shaded">
+                        <div class="tCell sl"> {{meeting.video}} </div>
+                        <div class="tCell sl">
+                            <a 
+                                href="" 
+                                onclick="confirm_link('Delete video: {{ meeting.video }}?', '{{ url_for('file_delete', id=meeting.id, file=meeting.video) }}')" 
+                                data-toggle="tooltip" title="Delete meeting" >
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                         </div>
+                    </div>
+                {% endif %}
+
+                {% if meeting.documents %}
+                    {% for doc in meeting.documents %}
+                    <div class="tRow {{ loop.cycle('', 'shaded') }}">
+                        <div class="tCell sl">{{ doc }}</div>
+                        <div class="tCell sl">
+                            <a 
+                                href="" 
+                                onclick="confirm_link('Delete file: {{ doc }}?', '{{ url_for('file_delete', id=meeting.id, file=doc) }}')" 
+                                data-toggle="tooltip" title="Delete meeting" >
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+             </div>
+                 {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if not meeting.video: %}
+        <div class="form-group">
+            <div>
+                <i class="fas fa-file-video"> </i> {{form.video.label}}  
+            </div>
+            
+            <div>
+                {{ form.video( accept=app.config.get('ALLOWED_EXTENSIONS_VIDEO')) }}
+            </div>
+            
+        </div>
+        {% endif %}
+        <div class="form-group">
+            
+            <div>
+                <i class="fas fa-file-pdf"></i> {{form.files.label}}
+            </div>
+            <div>
+                {{ form.files( accept=app.config.get('ALLOWED_EXTENSIONS_DOCS')) }}
+            </div>
+        </div>
+        <div class="group">
+            <input type="submit" value="Save"  />
+        </div>
+    </form>
+</div>
+<div id="msg"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script>
+    var msg = '';
+        $('document').ready(function(){
+            $("form").submit(function () {
+                var video = $('#video').prop('files');
+                var files = $('#files').prop('files');
+                if (video || files.length > 0 )
+                {
+                    if (video) {
+                        msg = video[0].name +"<br>"
+                    }
+                    for (i = 0; i < files.length; i++) {
+                        msg = msg + files[i].name + "<br>";
+                    } 
+                    $('#form').hide();
+                    $('#form-header').html('Please wait uploading...');
+                    $('#msg').html(msg);
+                }
+                else if($('#files')){
+                   
+                }
+                else{
+                    alert("No Files Added ")
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}

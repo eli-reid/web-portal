@@ -1,0 +1,24 @@
+﻿{% extends "/user/layout.html" %}
+{% block content %}
+<div class="login-form">
+    <form action="/user/forgot" method="post">
+        <h2 class="text-center ">Recover Password</h2>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <div>
+                <i class="fa fa-user"> </i> {{ form.email.label }}
+            </div>
+            <div>
+                {{ form.email}}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.recaptcha }}
+        </div>
+        <div class="group">
+            <input type="submit" value="Recover Password" />
+        </div>
+    </form>
+</div>
+
+{% endblock %}

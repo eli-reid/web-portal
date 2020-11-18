@@ -1,0 +1,14 @@
+{
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        ".",
+        "-p",
+        "*test.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.pythonPath": "c:\\Users\\EliR\\OneDrive\\source\\repos\\Condo Co-Op Web\\Condo Co-Op Web\\env_condo_web\\Scripts\\python.exe",
+    "git.autofetch": true
+}

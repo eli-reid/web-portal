@@ -1,0 +1,47 @@
+
+.table {
+    display: table;
+    width: 100%;
+    
+}
+.tBody{
+    display: table-row-group;
+}
+.tRow {
+    display: table-row;
+}
+
+.tHeading{
+    display: table-header-group;
+
+}
+
+.t_center{
+    text-align: center;
+}
+
+.tCell 
+{
+    display: table-cell;
+    padding: 3px ;
+    width: auto;
+    
+}
+.tHead 
+{
+    display: table-cell;
+    padding: 3px ;
+    font-size: large;
+    color: #ddd;
+}
+.sl > .tHead{
+    padding:1px;
+    width:max-content;
+    text-align: center;
+}
+.shaded {
+    background-color: #ddd;
+}
+.date{
+    width: 50px ;
+}

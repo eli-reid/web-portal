@@ -1,0 +1,9 @@
+# Python Tools for Visual Studio (PTVS)
+
+*.db 
+
+__pycache__/
+*.pyc
+
+
+

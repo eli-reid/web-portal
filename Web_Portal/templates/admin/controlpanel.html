@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="/static/content/forms.css" />
+    <link href="/static/content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+   
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link href="/static/content/admin/admincontrolpanel.css" rel="stylesheet" />
+    <link href="/static/content/admin/userstable.css" rel="stylesheet" />
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header" id="sidebarCollapse">
+                <h3 id="sidebarCollapse">Control Panel</h3>
+                <strong>CP</strong>
+            </div>
+            <ul class="list-unstyled components">
+                <li><a href="{{url_for('home')}}" aria-expanded="false"><i class="fas fa-home"></i> Home</a></li>
+                <li>
+                    <a aria-expanded="false">
+                        <i class="fas fa-lock"></i>
+                        Access Conrtol
+                    </a>
+                    <ul class="list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="{{ url_for('useradmin') }}"><i class="fas fa-users-cog"></i> Users</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('useradmin_add') }}"><i class="fas fa-user-plus"></i> Add User</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a aria-expanded="false">
+                        <i class="fas fa-video"></i>
+                        Meetings Admin
+                    </a>
+                    <ul class="list-unstyled" id="zoomSubmenu">
+                        <li>
+                            <a href={{ url_for('meeting_add') }}>
+                                <i class="fas fa-folder"></i>
+                                Upload Files
+                            </a>
+                        </li>
+                        <li>
+                            <a href={{ url_for('meeting_manage') }}>
+                                <i class="fas fa-folder"></i>
+                                Manage Files
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div class="container">
+        <div class="body-content" id="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            <span>{{ message }}</span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+       
+                {% block content %}{% endblock %}
+                <hr />
+                <footer>
+                    <p>© {{ year }} - Website By Elireid.com</p>
+                </footer>
+            </div>
+        </div>
+    </div>  
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script  src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+   
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+            $(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+
+        function toggle(url){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, false); // false for synchronous request
+            xmlHttp.send( null );
+            console.log( xmlHttp.responseText);
+            xmlHttp.onreadystatechange =function(){
+                if (this.readyState == 4 && this.status == 200) {
+                    location.reload();
+                }
+            }
+        }
+
+        function confirm_link(msg, url) {
+        cf = confirm(msg);
+        if (cf == true) {
+            console.log("true");
+            toggle(url);
+        }
+    }
+
+    </script>
+    {% block script %}{% endblock %}
+</body>
+
+</html>
